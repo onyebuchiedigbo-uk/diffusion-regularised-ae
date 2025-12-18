@@ -134,13 +134,16 @@ def show_recon_grid(ae_model, dataloader, device, n=8):
         torch.cat([x01, xr01, diff], dim=0),
         nrow=n, padding=2, normalize=False,
     )
-    plt.figure(figsize=(1.6 * n, 4.5))
+    fig = plt.figure(figsize=(1.6 * n, 4.5))
     plt.imshow(grid.permute(1, 2, 0).numpy())
     plt.axis("off")
     plt.title(r"Original / Reconstruction / $|x - \hat{x}|$")
     plt.tight_layout()
-    plt.savefig(os.path.join(FIGURES_DIR, "recon_grid.pdf"), bbox_inches="tight")
-    plt.close()
+    out_path = os.path.join(FIGURES_DIR, "recon_grid.pdf")
+    fig.savefig(out_path, bbox_inches="tight")
+    plt.show()
+    plt.close(fig)
+    print("Saved reconstruction grid to:", out_path)
 
 
 def per_image_mse_plots(ae_model, dataloader, device):
@@ -156,24 +159,33 @@ def per_image_mse_plots(ae_model, dataloader, device):
     mse_all    = np.concatenate(mse_list)
     labels_all = np.concatenate(label_list)
 
-    plt.figure(figsize=(6, 3))
+    # Per-image MSE histogram
+    fig = plt.figure(figsize=(6, 3))
     plt.hist(mse_all, bins=100)
     plt.xlabel("Per-image MSE")
     plt.ylabel("Count")
     plt.title("Per-image Reconstruction Error")
     plt.tight_layout()
-    plt.savefig(os.path.join(FIGURES_DIR, "per_image_mse_hist.pdf"), bbox_inches="tight")
-    plt.close()
+    out_path = os.path.join(FIGURES_DIR, "per_image_mse_hist.pdf")
+    fig.savefig(out_path, bbox_inches="tight")
+    plt.show()
+    plt.close(fig)
+    print("Saved per-image MSE histogram to:", out_path)
 
+    # Per-class mean MSE bar plot
     df_mse = pd.DataFrame({"mse": mse_all, "label": labels_all})
     means  = df_mse.groupby("label")["mse"].mean()
-    plt.figure(figsize=(7, 3))
+
+    fig = plt.figure(figsize=(7, 3))
     means.plot(kind="bar")
     plt.ylabel("Mean MSE")
     plt.title("Mean Reconstruction Error per CIFAR-10 Class")
     plt.tight_layout()
-    plt.savefig(os.path.join(FIGURES_DIR, "per_class_mse.pdf"), bbox_inches="tight")
-    plt.close()
+    out_path = os.path.join(FIGURES_DIR, "per_class_mse.pdf")
+    fig.savefig(out_path, bbox_inches="tight")
+    plt.show()
+    plt.close(fig)
+    print("Saved per-class MSE bar plot to:", out_path)
     print("Per-class MSE:\n", means)
 
 
@@ -197,13 +209,16 @@ def latent_umap(ae_model, dataloader, device, max_points=2000):
     reducer = umap.UMAP(n_components=2, random_state=SEED)
     Z_umap  = reducer.fit_transform(Z_sub)
 
-    plt.figure(figsize=(7, 6))
+    fig = plt.figure(figsize=(7, 6))
     sc = plt.scatter(Z_umap[:, 0], Z_umap[:, 1], c=Y_sub, cmap="tab10", s=6)
     plt.colorbar(sc, ticks=range(10))
     plt.title("UMAP of Latent Space")
     plt.tight_layout()
-    plt.savefig(os.path.join(FIGURES_DIR, "latent_umap.pdf"), bbox_inches="tight")
-    plt.close()
+    out_path = os.path.join(FIGURES_DIR, "latent_umap.pdf")
+    fig.savefig(out_path, bbox_inches="tight")
+    plt.show()
+    plt.close(fig)
+    print("Saved latent UMAP to:", out_path)
 
 
 def cross_class_interpolation(ae_model, trainset, device, out_path, steps=12):
@@ -267,8 +282,10 @@ def cross_class_interpolation(ae_model, trainset, device, out_path, steps=12):
 
     plt.suptitle("Cross-Class Interpolation (Latent + Skip Blending)", fontsize=14)
     plt.tight_layout()
-    plt.savefig(out_path, bbox_inches="tight")
-    plt.close()
+    fig.savefig(out_path, bbox_inches="tight")
+    plt.show()
+    plt.close(fig)
+    print("Saved cross-class interpolation to:", out_path)
 
 
 def run_eval():
@@ -299,7 +316,7 @@ def run_eval():
     fake_dir = tempfile.mkdtemp()
     fid_value = compute_fid(ae, testloader, device, N_FID_SAMPLES, real_dir, fake_dir)
 
-    # Save metrics summary
+    # Save metrics summary (table as CSV)
     summary = {
         **metrics,
         "FID": fid_value,
@@ -310,7 +327,7 @@ def run_eval():
     print("\nReconstruction + FID Results (CIFAR-10 test set)")
     print(df_summary.round(4).to_string(index=False))
 
-    # Visualizations
+    # Visualizations (show + save PDFs)
     show_recon_grid(ae, testloader, device, n=8)
     per_image_mse_plots(ae, testloader, device)
     latent_umap(ae, testloader, device)
