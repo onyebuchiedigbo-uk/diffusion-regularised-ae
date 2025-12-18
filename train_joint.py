@@ -30,6 +30,7 @@ plt.rcParams.update({
     "mathtext.rm": "serif",
 })
 
+
 def set_seed(seed=42):
     random.seed(seed)
     np.random.seed(seed)
@@ -39,6 +40,7 @@ def set_seed(seed=42):
         torch.backends.cudnn.deterministic = True
         torch.backends.cudnn.benchmark = False
 
+
 def grad_norm_of_params(params):
     total = 0.0
     for p in params:
@@ -46,6 +48,7 @@ def grad_norm_of_params(params):
             g = p.grad.detach()
             total += g.pow(2).sum().item()
     return math.sqrt(total) if total > 0 else 0.0
+
 
 def train_joint():
     set_seed(SEED)
@@ -168,7 +171,7 @@ def train_joint():
             s_diff += L_diff.item() * x.size(0)
             s_tot  += L_total.item()* x.size(0)
             n += x.size(0)
-            loop.set_postfix(L_ae=s_ae/n, L_diff=s_diff/n, lam=scale_diff)
+            loop.set_postfix(AE=s_ae / n, DIFF=s_diff / n, lam=scale_diff)
 
         train_mse_ae    = s_ae   / n
         train_mse_diff  = s_diff / n
@@ -204,15 +207,14 @@ def train_joint():
 
         scheduler.step()
 
-    # Save joint history
-    pd.DataFrame(history_joint).to_csv(os.path.join(RESULTS_DIR, "joint_history.csv"), index=False)
+    # Save joint history (table as CSV)
+    df_joint = pd.DataFrame(history_joint)
+    df_joint.to_csv(os.path.join(RESULTS_DIR, "joint_history.csv"), index=False)
     torch.save(ae.state_dict(), os.path.join(CHECKPOINT_DIR, "ae_joint.pth"))
     torch.save(denoiser.state_dict(), os.path.join(CHECKPOINT_DIR, "denoiser_joint.pth"))
     print("Joint training finished and checkpoints saved.")
 
-    # Plot joint curves
-    df_joint = pd.DataFrame(history_joint)
-    plt.figure(figsize=(14, 8))
+    # Plot joint curves (single multi-panel figure with sublabels)
     fig, axes = plt.subplots(2, 3, figsize=(14, 8))
 
     axes[0,0].plot(df_joint.epoch, df_joint.train_mse_ae, "o-", lw=2, label="AE loss")
@@ -220,24 +222,32 @@ def train_joint():
     axes[0,0].set_xlabel("Epoch"); axes[0,0].set_ylabel("MSE")
     axes[0,0].set_title("AE Reconstruction Loss")
     axes[0,0].grid(True, alpha=0.3); axes[0,0].legend()
+    axes[0,0].text(0.02, 0.95, "(a)", transform=axes[0,0].transAxes,
+                   fontsize=10, va="top")
 
     axes[0,1].plot(df_joint.epoch, df_joint.train_mse_diff, "o-", lw=2, label="Diffusion MSE")
     axes[0,1].set_yscale("log")
     axes[0,1].set_xlabel("Epoch"); axes[0,1].set_ylabel("MSE")
     axes[0,1].set_title("Diffusion Denoising Loss")
     axes[0,1].grid(True, alpha=0.3); axes[0,1].legend()
+    axes[0,1].text(0.02, 0.95, "(b)", transform=axes[0,1].transAxes,
+                   fontsize=10, va="top")
 
     axes[0,2].plot(df_joint.epoch, df_joint.train_mse_total, "o-", lw=2, label="Total loss")
     axes[0,2].set_yscale("log")
     axes[0,2].set_xlabel("Epoch"); axes[0,2].set_ylabel("Loss")
     axes[0,2].set_title("Total Balanced Loss")
     axes[0,2].grid(True, alpha=0.3); axes[0,2].legend()
+    axes[0,2].text(0.02, 0.95, "(c)", transform=axes[0,2].transAxes,
+                   fontsize=10, va="top")
 
     axes[1,0].plot(df_joint.epoch, df_joint.val_mse, "o-", lw=2, label="Val MSE")
     axes[1,0].set_yscale("log")
     axes[1,0].set_xlabel("Epoch"); axes[1,0].set_ylabel("MSE")
     axes[1,0].set_title("Validation Reconstruction Loss")
     axes[1,0].grid(True, alpha=0.3); axes[1,0].legend()
+    axes[1,0].text(0.02, 0.95, "(d)", transform=axes[1,0].transAxes,
+                   fontsize=10, va="top")
 
     axes[1,1].plot(df_joint.epoch, df_joint.grad_norm_encoder, "o-", lw=2, label="AE grad norm")
     axes[1,1].plot(df_joint.epoch, df_joint.grad_norm_denoiser, "s-", lw=2, label="Denoiser grad norm")
@@ -245,17 +255,25 @@ def train_joint():
     axes[1,1].set_xlabel("Epoch"); axes[1,1].set_ylabel(r"$\|\nabla\|_2$")
     axes[1,1].set_title("Gradient Norms")
     axes[1,1].grid(True, alpha=0.3); axes[1,1].legend()
+    axes[1,1].text(0.02, 0.95, "(e)", transform=axes[1,1].transAxes,
+                   fontsize=10, va="top")
 
     axes[1,2].plot(df_joint.epoch, df_joint.scale_diff, "o-", lw=2, label=r"$\lambda(t)$")
     axes[1,2].set_xlabel("Epoch"); axes[1,2].set_ylabel("Scale factor")
     axes[1,2].set_title(r"Dynamic Scale Factor $\lambda(t)$")
     axes[1,2].grid(True, alpha=0.3); axes[1,2].legend()
+    axes[1,2].text(0.02, 0.95, "(f)", transform=axes[1,2].transAxes,
+                   fontsize=10, va="top")
 
     plt.tight_layout()
-    plt.savefig(os.path.join(FIGURES_DIR, "joint_training_curves.pdf"), bbox_inches="tight")
-    plt.close()
+    out_path = os.path.join(FIGURES_DIR, "joint_training_curves.pdf")
+    fig.savefig(out_path, bbox_inches="tight")
+    plt.show()
+    plt.close(fig)
+    print("Saved joint training curves to:", out_path)
 
     return history_joint
+
 
 if __name__ == "__main__":
     train_joint()
