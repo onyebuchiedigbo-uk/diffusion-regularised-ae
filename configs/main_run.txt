@@ -1,0 +1,89 @@
+# Main model configuration (canonical run for the paper)
+# Diffusion-regularised UNet Autoencoder on CIFAR-10
+
+# Reproducibility
+SEED = 42
+DEVICE = "cuda" if available else "cpu"
+
+# Dataset
+DATASET = "CIFAR-10"
+TRAIN_SIZE = 50000
+TEST_SIZE  = 10000
+IMAGE_SIZE = 32 x 32
+CHANNELS   = 3
+NORMALIZATION = (x - 0.5) / 0.5   # applied per channel
+
+# Autoencoder architecture
+BACKBONE = "UNet-style convolutional autoencoder"
+LATENT_DIM = 256          # dimension of z
+ENCODER_RESOLUTIONS = [32, 16, 8, 4]
+DECODER_RESOLUTIONS = [4, 8, 16, 32]
+
+# Denoiser architecture
+DENOISER = "SmallTransformerDenoiser"
+DENOISER_N_TOKENS = 8
+DENOISER_D_MODEL  = 128
+DENOISER_N_HEADS  = 4
+DENOISER_N_LAYERS = 4
+
+# Training: AE warm-start
+AE_EPOCHS       = 20
+AE_BATCH_SIZE   = 128
+AE_VAL_BATCH    = 256
+AE_LR           = 2e-4
+AE_WEIGHT_DECAY = 1e-6
+AE_OPTIMIZER    = "AdamW"
+AE_GRAD_CLIP    = 1.0
+
+# Training: joint optimisation (decoder + denoiser, encoder frozen)
+JOINT_EPOCHS       = 30
+JOINT_BATCH_SIZE   = 128
+JOINT_VAL_BATCH    = 256
+JOINT_LR           = 2e-4
+JOINT_WEIGHT_DECAY = 1e-6
+JOINT_OPTIMIZER    = "AdamW"
+GRAD_NORM_MAX      = 5.0
+EMA_DECAY          = 0.999
+
+# Diffusion configuration
+DIFFUSION_TIMESTEPS = 100
+SCHEDULE_NAME       = "cosine"    # cosine beta schedule (Nichol & Dhariwal 2021)
+NOISE_OBJECTIVE     = "epsilon"   # predict epsilon in latent space
+
+# Metrics and evaluation
+METRICS = ["PSNR", "SSIM", "LPIPS (VGG)", "FID"]
+N_FID_SAMPLES  = 5000
+FID_RESIZE     = (299, 299)
+FID_BACKBONE   = "Inception-v3 (torch-fidelity)"
+
+# Checkpoints and outputs (relative to repo root)
+DATA_DIR       = "./data"
+CHECKPOINT_DIR = "./checkpoints"
+RESULTS_DIR    = "./results"
+FIGURES_DIR    = "./figures"
+
+# Main reported test-set results (CIFAR-10, EMA weights, ae_joint.pth)
+MAIN_RESULTS:
+  PSNR  ≈ 45.15 dB
+  SSIM  ≈ 0.9982
+  LPIPS ≈ 0.0017
+  FID   ≈ 0.736 (N = 5000)
+
+# Visualisations produced by the pipeline
+FIGURES:
+  - ae_training_curves.pdf          # AE warm-start loss curves
+  - joint_training_curves.pdf       # Joint AE+diffusion losses, λ(t), grad norms
+  - recon_grid.pdf                  # Original / reconstruction / |x - x̂|
+  - per_image_mse_hist.pdf          # Per-image reconstruction error histogram
+  - per_class_mse.pdf               # Class-wise mean reconstruction error
+  - latent_umap.pdf                 # UMAP of latent space
+  - cross_class_interpolation.pdf   # Cross-class interpolation (latent + skips)
+
+# Ablation experiments
+AB_LATENT_DIMS   = [64, 128, 256]
+AB_SCHEDULES     = ["linear", "cosine"]
+AB_AE_EPOCHS     = 10
+AB_JOINT_EPOCHS  = 10
+AB_FID_SAMPLES   = 2000
+AB_OUTPUT_CSV    = "results/ablation_summary.csv"
+
