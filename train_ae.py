@@ -1,4 +1,4 @@
-import os, math, random, warnings
+import os, random, warnings
 warnings.filterwarnings("ignore")
 
 import numpy as np
@@ -26,6 +26,7 @@ plt.rcParams.update({
     "mathtext.rm": "serif",
 })
 
+
 def set_seed(seed=42):
     random.seed(seed)
     np.random.seed(seed)
@@ -34,6 +35,7 @@ def set_seed(seed=42):
         torch.cuda.manual_seed_all(seed)
         torch.backends.cudnn.deterministic = True
         torch.backends.cudnn.benchmark = False
+
 
 def train_ae():
     set_seed(SEED)
@@ -88,13 +90,13 @@ def train_ae():
         history_ae["val_mse"].append(val_mse)
         print(f"Epoch {epoch:02d} | train_mse={train_mse:.3e} | val_mse={val_mse:.3e}")
 
-    # Save checkpoint and history
+    # Save checkpoint and history (tables as CSV)
     torch.save(ae.state_dict(), os.path.join(CHECKPOINT_DIR, "ae_warm.pth"))
     pd.DataFrame(history_ae).to_csv(os.path.join(RESULTS_DIR, "ae_history.csv"), index=False)
     print("Saved AE warm-start checkpoint and history.")
 
-    # Plot training curves
-    plt.figure(figsize=(6, 4))
+    # Plot training curves (show + save PDF)
+    fig = plt.figure(figsize=(6, 4))
     plt.plot(history_ae["epoch"], history_ae["train_mse"], "o-", label="Train MSE")
     plt.plot(history_ae["epoch"], history_ae["val_mse"], "s-", label="Val MSE")
     plt.yscale("log")
@@ -104,10 +106,14 @@ def train_ae():
     plt.grid(True, alpha=0.3)
     plt.legend()
     plt.tight_layout()
-    plt.savefig(os.path.join(FIGURES_DIR, "ae_training_curves.pdf"), bbox_inches="tight")
-    plt.close()
+    out_path = os.path.join(FIGURES_DIR, "ae_training_curves.pdf")
+    fig.savefig(out_path, bbox_inches="tight")
+    plt.show()
+    plt.close(fig)
+    print("Saved AE training curves to:", out_path)
 
     return history_ae
+
 
 if __name__ == "__main__":
     train_ae()
