@@ -1,4 +1,4 @@
-import os, math, random, warnings
+import os, random, warnings
 warnings.filterwarnings("ignore")
 
 import numpy as np
@@ -25,6 +25,7 @@ from data import get_cifar10_loaders
 from models import UNetAutoencoder, SmallTransformerDenoiser
 from diffusion import get_linear_betas, get_cosine_betas, prepare_alphas, q_sample_batch
 
+
 def set_seed(seed=42):
     random.seed(seed)
     np.random.seed(seed)
@@ -33,6 +34,7 @@ def set_seed(seed=42):
         torch.cuda.manual_seed_all(seed)
         torch.backends.cudnn.deterministic = True
         torch.backends.cudnn.benchmark = False
+
 
 def eval_recon_local(ae_model, testloader, device, cfg_name=""):
     ae_model.eval()
@@ -44,11 +46,11 @@ def eval_recon_local(ae_model, testloader, device, cfg_name=""):
                          leave=False):
             x = x.to(device, non_blocking=True)
             _, xr = ae_model(x)
-            x01  = (x  * 0.5 + 0.5).clamp(0,1)
-            xr01 = (xr * 0.5 + 0.5).clamp(0,1)
+            x01  = (x  * 0.5 + 0.5).clamp(0, 1)
+            xr01 = (xr * 0.5 + 0.5).clamp(0, 1)
             for a, b in zip(
-                x01.cpu().numpy().transpose(0,2,3,1),
-                xr01.cpu().numpy().transpose(0,2,3,1),
+                x01.cpu().numpy().transpose(0, 2, 3, 1),
+                xr01.cpu().numpy().transpose(0, 2, 3, 1),
             ):
                 psnr_all.append(sk_psnr(a, b, data_range=1.0))
             ssim_batch = pssim(xr01, x01, data_range=1.0, size_average=False)
@@ -60,6 +62,7 @@ def eval_recon_local(ae_model, testloader, device, cfg_name=""):
         "SSIM": float(np.mean(ssim_all)),
         "LPIPS": float(np.mean(lpips_all)),
     }
+
 
 def eval_fid_local(ae_model, testloader, device, n_samples, cfg_name=""):
     resize_299 = Resize((299, 299), antialias=True)
@@ -78,8 +81,8 @@ def eval_fid_local(ae_model, testloader, device, n_samples, cfg_name=""):
             for i in range(x.size(0)):
                 if count >= n_samples:
                     break
-                real = (x[i]  * 0.5 + 0.5).clamp(0,1)
-                fake = (xr[i] * 0.5 + 0.5).clamp(0,1)
+                real = (x[i]  * 0.5 + 0.5).clamp(0, 1)
+                fake = (xr[i] * 0.5 + 0.5).clamp(0, 1)
                 from torchvision import utils as tv_utils
                 tv_utils.save_image(resize_299(real.cpu()),
                                     os.path.join(real_dir, f"{count:05d}_real.png"))
@@ -97,6 +100,7 @@ def eval_fid_local(ae_model, testloader, device, n_samples, cfg_name=""):
         cuda=torch.cuda.is_available(),
     )
     return float(fid_out["frechet_inception_distance"])
+
 
 def run_single_ablation(latent_dim, schedule_name, use_diffusion=True):
     cfg_name = f"ld={latent_dim},sched={schedule_name},diff={use_diffusion}"
@@ -241,9 +245,9 @@ def run_single_ablation(latent_dim, schedule_name, use_diffusion=True):
             s_tot  += L_total.item()* x.size(0)
             n      += x.size(0)
 
-        train_mse_ae   = s_ae   / n
-        train_mse_diff = s_diff / n
-        train_mse_total= s_tot  / n
+        train_mse_ae    = s_ae   / n
+        train_mse_diff  = s_diff / n
+        train_mse_total = s_tot  / n
 
         # validation
         ae_ab.eval()
@@ -274,6 +278,7 @@ def run_single_ablation(latent_dim, schedule_name, use_diffusion=True):
 
     return metrics_ab, fid_ab, history_ae_ab, history_joint_ab
 
+
 def run_ablation():
     all_summaries = []
     all_histories = []
@@ -302,6 +307,17 @@ def run_ablation():
                     "joint": hist_joint_ab,
                 })
 
+                # Also save per-run histories as CSV (tables)
+                cfg_safe = f"ld{ld}_sched{sched}_diff{use_diff}".replace(",", "").replace(" ", "")
+                pd.DataFrame(hist_ae_ab).to_csv(
+                    os.path.join(RESULTS_DIR, f"ablation_{cfg_safe}_ae_history.csv"),
+                    index=False,
+                )
+                pd.DataFrame(hist_joint_ab).to_csv(
+                    os.path.join(RESULTS_DIR, f"ablation_{cfg_safe}_joint_history.csv"),
+                    index=False,
+                )
+
     df_summary = pd.DataFrame(all_summaries)
     df_summary.to_csv(os.path.join(RESULTS_DIR, "ablation_summary.csv"), index=False)
     print("\nFull ablation summary:")
@@ -311,6 +327,7 @@ def run_ablation():
     import pickle
     with open(os.path.join(RESULTS_DIR, "ablation_histories.pkl"), "wb") as f:
         pickle.dump(all_histories, f)
+
 
 if __name__ == "__main__":
     run_ablation()
