@@ -14,7 +14,6 @@ import lpips
 from pytorch_msssim import ssim as pssim
 from skimage.metrics import peak_signal_noise_ratio as sk_psnr
 from torch_fidelity import calculate_metrics
-from PIL import Image
 
 from config import (
     SEED, DEVICE,
@@ -34,6 +33,7 @@ plt.rcParams.update({
     "mathtext.rm": "serif",
 })
 
+
 def set_seed(seed=42):
     random.seed(seed)
     np.random.seed(seed)
@@ -42,6 +42,7 @@ def set_seed(seed=42):
         torch.cuda.manual_seed_all(seed)
         torch.backends.cudnn.deterministic = True
         torch.backends.cudnn.benchmark = False
+
 
 def evaluate_recon(ae_model, dataloader, device):
     ae_model.eval()
@@ -58,8 +59,8 @@ def evaluate_recon(ae_model, dataloader, device):
             xr01 = (xr * 0.5 + 0.5).clamp(0, 1)
 
             for a, b in zip(
-                x01.cpu().numpy().transpose(0,2,3,1),
-                xr01.cpu().numpy().transpose(0,2,3,1),
+                x01.cpu().numpy().transpose(0, 2, 3, 1),
+                xr01.cpu().numpy().transpose(0, 2, 3, 1),
             ):
                 psnr_all.append(sk_psnr(a, b, data_range=1.0))
 
@@ -74,6 +75,7 @@ def evaluate_recon(ae_model, dataloader, device):
         "SSIM": float(np.mean(ssim_all)),
         "LPIPS": float(np.mean(lpips_all)),
     }
+
 
 def compute_fid(ae_model, dataloader, device, n_samples, out_real_dir, out_fake_dir):
     resize = Resize(FID_RESIZE_SIZE, antialias=True)
@@ -92,10 +94,14 @@ def compute_fid(ae_model, dataloader, device, n_samples, out_real_dir, out_fake_
                 real = (x[i]  * 0.5 + 0.5).clamp(0, 1)
                 fake = (xr[i] * 0.5 + 0.5).clamp(0, 1)
 
-                tv_utils.save_image(resize(real.cpu()),
-                                    os.path.join(out_real_dir, f"{count:05d}_real.png"))
-                tv_utils.save_image(resize(fake.cpu()),
-                                    os.path.join(out_fake_dir, f"{count:05d}_fake.png"))
+                tv_utils.save_image(
+                    resize(real.cpu()),
+                    os.path.join(out_real_dir, f"{count:05d}_real.png"),
+                )
+                tv_utils.save_image(
+                    resize(fake.cpu()),
+                    os.path.join(out_fake_dir, f"{count:05d}_fake.png"),
+                )
                 count += 1
 
             if count >= n_samples:
@@ -112,6 +118,7 @@ def compute_fid(ae_model, dataloader, device, n_samples, out_real_dir, out_fake_
     )
     return float(fid_out["frechet_inception_distance"])
 
+
 def show_recon_grid(ae_model, dataloader, device, n=8):
     ae_model.eval()
     x_batch, _ = next(iter(dataloader))
@@ -123,15 +130,18 @@ def show_recon_grid(ae_model, dataloader, device, n=8):
     xr01 = (xr * 0.5 + 0.5).clamp(0, 1).cpu()
     diff = torch.abs(xr01 - x01)
 
-    grid = tv_utils.make_grid(torch.cat([x01, xr01, diff], dim=0),
-                              nrow=n, padding=2, normalize=False)
-    plt.figure(figsize=(1.6*n, 4.5))
-    plt.imshow(grid.permute(1,2,0).numpy())
+    grid = tv_utils.make_grid(
+        torch.cat([x01, xr01, diff], dim=0),
+        nrow=n, padding=2, normalize=False,
+    )
+    plt.figure(figsize=(1.6 * n, 4.5))
+    plt.imshow(grid.permute(1, 2, 0).numpy())
     plt.axis("off")
     plt.title(r"Original / Reconstruction / $|x - \hat{x}|$")
     plt.tight_layout()
     plt.savefig(os.path.join(FIGURES_DIR, "recon_grid.pdf"), bbox_inches="tight")
     plt.close()
+
 
 def per_image_mse_plots(ae_model, dataloader, device):
     ae_model.eval()
@@ -140,13 +150,13 @@ def per_image_mse_plots(ae_model, dataloader, device):
         for x, y in dataloader:
             x = x.to(device)
             _, xr = ae_model(x)
-            per_img_mse = ((xr - x)**2).view(x.size(0), -1).mean(dim=1).cpu().numpy()
+            per_img_mse = ((xr - x) ** 2).view(x.size(0), -1).mean(dim=1).cpu().numpy()
             mse_list.append(per_img_mse)
             label_list.append(y.numpy())
     mse_all    = np.concatenate(mse_list)
     labels_all = np.concatenate(label_list)
 
-    plt.figure(figsize=(6,3))
+    plt.figure(figsize=(6, 3))
     plt.hist(mse_all, bins=100)
     plt.xlabel("Per-image MSE")
     plt.ylabel("Count")
@@ -157,7 +167,7 @@ def per_image_mse_plots(ae_model, dataloader, device):
 
     df_mse = pd.DataFrame({"mse": mse_all, "label": labels_all})
     means  = df_mse.groupby("label")["mse"].mean()
-    plt.figure(figsize=(7,3))
+    plt.figure(figsize=(7, 3))
     means.plot(kind="bar")
     plt.ylabel("Mean MSE")
     plt.title("Mean Reconstruction Error per CIFAR-10 Class")
@@ -165,6 +175,7 @@ def per_image_mse_plots(ae_model, dataloader, device):
     plt.savefig(os.path.join(FIGURES_DIR, "per_class_mse.pdf"), bbox_inches="tight")
     plt.close()
     print("Per-class MSE:\n", means)
+
 
 def latent_umap(ae_model, dataloader, device, max_points=2000):
     import umap
@@ -186,19 +197,85 @@ def latent_umap(ae_model, dataloader, device, max_points=2000):
     reducer = umap.UMAP(n_components=2, random_state=SEED)
     Z_umap  = reducer.fit_transform(Z_sub)
 
-    plt.figure(figsize=(7,6))
-    sc = plt.scatter(Z_umap[:,0], Z_umap[:,1], c=Y_sub, cmap="tab10", s=6)
+    plt.figure(figsize=(7, 6))
+    sc = plt.scatter(Z_umap[:, 0], Z_umap[:, 1], c=Y_sub, cmap="tab10", s=6)
     plt.colorbar(sc, ticks=range(10))
     plt.title("UMAP of Latent Space")
     plt.tight_layout()
     plt.savefig(os.path.join(FIGURES_DIR, "latent_umap.pdf"), bbox_inches="tight")
     plt.close()
 
+
+def cross_class_interpolation(ae_model, trainset, device, out_path, steps=12):
+    """Generate cross-class interpolation figure and save to out_path."""
+    import numpy as np
+
+    CLASSNAMES = [
+        "Plane", "Car", "Bird", "Cat", "Deer",
+        "Dog", "Frog", "Horse", "Ship", "Truck",
+    ]
+
+    def get_random_by_class(class_id, dataset):
+        labels = np.array(dataset.targets)
+        idxs = np.where(labels == class_id)[0]
+        idx = np.random.choice(idxs)
+        img, _ = dataset[idx]
+        return img.unsqueeze(0).to(device)
+
+    @torch.no_grad()
+    def encode_img(x):
+        z, skips = ae_model.encode(x)
+        skips = tuple(s.clone() for s in skips)
+        return z, skips
+
+    def lerp(a, b, t):
+        return (1.0 - t) * a + t * b
+
+    @torch.no_grad()
+    def interpolate_pair(class_a, class_b, steps):
+        img_a = get_random_by_class(class_a, trainset)
+        img_b = get_random_by_class(class_b, trainset)
+        z_a, skips_a = encode_img(img_a)
+        z_b, skips_b = encode_img(img_b)
+
+        frames = []
+        for i in range(steps):
+            t = i / (steps - 1)
+            z_t = lerp(z_a, z_b, t)
+            skips_t = [lerp(sa, sb, t) for sa, sb in zip(skips_a, skips_b)]
+            rec = ae_model.decode(z_t, skips_t)
+            frames.append((rec * 0.5 + 0.5).clamp(0, 1).cpu())
+        return torch.cat(frames, dim=0)
+
+    PAIRS = [(2, 8), (3, 0), (6, 9), (1, 7)]
+    num_steps = steps
+
+    fig, axes = plt.subplots(
+        len(PAIRS), num_steps,
+        figsize=(num_steps * 1.2, len(PAIRS) * 1.5),
+    )
+
+    for r, (a_cls, b_cls) in enumerate(PAIRS):
+        frames = interpolate_pair(a_cls, b_cls, num_steps)
+        for c in range(num_steps):
+            axes[r, c].imshow(frames[c].permute(1, 2, 0).numpy())
+            axes[r, c].axis("off")
+            if c == 0:
+                axes[r, c].set_title(CLASSNAMES[a_cls], fontsize=8)
+            if c == num_steps - 1:
+                axes[r, c].set_title(CLASSNAMES[b_cls], fontsize=8)
+
+    plt.suptitle("Cross-Class Interpolation (Latent + Skip Blending)", fontsize=14)
+    plt.tight_layout()
+    plt.savefig(out_path, bbox_inches="tight")
+    plt.close()
+
+
 def run_eval():
     set_seed(SEED)
     device = torch.device(DEVICE)
 
-    _, testloader, _, _ = get_cifar10_loaders(
+    trainloader, testloader, trainset, _ = get_cifar10_loaders(
         batch_size=BATCH_SIZE,
         val_batch_size=VAL_BATCH_SIZE,
         num_workers=NUM_WORKERS,
@@ -238,7 +315,17 @@ def run_eval():
     per_image_mse_plots(ae, testloader, device)
     latent_umap(ae, testloader, device)
 
+    # Cross-class interpolation figure
+    cross_class_interpolation(
+        ae_model=ae,
+        trainset=trainset,
+        device=device,
+        out_path=os.path.join(FIGURES_DIR, "cross_class_interpolation.pdf"),
+        steps=12,
+    )
+
     ema_ae.restore(ae)
+
 
 if __name__ == "__main__":
     run_eval()
