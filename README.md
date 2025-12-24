@@ -1,6 +1,6 @@
-# Diffusion‑Regularised UNet Autoencoder
+# Diffusion‑Regularised Autoencoder
 
-This repository contains the code and experiments for a diffusion‑regularised UNet autoencoder for high‑fidelity image reconstruction on CIFAR‑10. The code implements autoencoder warm‑start, joint optimisation with a latent‑space diffusion denoiser, evaluation metrics (PSNR, SSIM, LPIPS, FID), and ablation studies over latent dimension and diffusion schedule.
+This repository contains the code and experiments for a diffusion‑regularised autoencoder for high‑fidelity image reconstruction on CIFAR‑10. The code implements autoencoder warm‑start, joint optimisation with a latent‑space diffusion denoiser, evaluation metrics (PSNR, SSIM, LPIPS, FID), and ablation studies over latent dimension and diffusion schedule.
 
 ## 1. Project structure
 
