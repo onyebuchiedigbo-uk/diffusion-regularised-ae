@@ -27,7 +27,7 @@ This repository contains the code and experiments for a diffusion‑regularised 
   - `scikit-image`, `scikit-learn`, `umap-learn`  
   - `lpips`, `pytorch-msssim`, `torch-fidelity`, `einops`, `accelerate`, `transformers`, `diffusers`
 
-On Google Colab, the notebook `notebooks/main_experiment_log.ipynb` (or the example in the root) installs all dependencies automatically in Cell 0.
+On Google Colab, the notebook `notebooks/main_experiment_log.ipynb` installs all dependencies automatically in Cell 0.
 
 ## 3. Quick start (main pipeline)
 
