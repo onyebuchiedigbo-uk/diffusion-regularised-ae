@@ -117,6 +117,7 @@ This file lists all key hyperparameters and settings (latent dimension, schedule
 [1] J. Ho, A. Jain, and P. Abbeel, “Denoising diffusion probabilistic mod-
 els,” in Proc. Adv. Neural Inf. Process. Syst. (NeurIPS), vol. 33, 2020,
 pp. 6840–6851. [Online]. Available: https://arxiv.org/abs/2006.11239
+
 [2] J. Song and S. Ermon, “Denoising diffusion implicit models,” in Proc. Int.
 Conf. Learn. Represent. (ICLR), 2021. [Online]. Available: https://arxiv.
 org/abs/2010.02502
