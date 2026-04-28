@@ -119,8 +119,7 @@ els,” in Proc. Adv. Neural Inf. Process. Syst. (NeurIPS), vol. 33, 2020,
 pp. 6840–6851. [Online]. Available: https://arxiv.org/abs/2006.11239
 
 [2] J. Song and S. Ermon, “Denoising diffusion implicit models,” in Proc. Int.
-Conf. Learn. Represent. (ICLR), 2021. [Online]. Available: https://arxiv.
-org/abs/2010.02502
+Conf. Learn. Represent. (ICLR), 2021. [Online]. Available: https://arxiv.org/abs/2010.02502
 
 [3] Y. Song, J. Sohl-Dickstein, D. P. Kingma, A. Kumar, S. Ermon, and
 B. Poole, “Score-based generative modeling through stochastic differential
@@ -140,14 +139,12 @@ transfer and super-resolution,” in Proc. Eur. Conf. Comput. Vis. (ECCV),
 “The unreasonable effectiveness of deep features as a perceptual
 metric,” in Proc. IEEE/CVF Conf. Comput. Vis. Pattern
 Recognit. (CVPR), 2018, pp. 586–595. [Online]. Available:
-https://openaccess.thecvf.com/content_cvpr_2018/papers/Zhang_The_
-Unreasonable_Effectiveness_CVPR_2018_paper.pdf
+https://openaccess.thecvf.com/content_cvpr_2018/papers/Zhang_The_Unreasonable_Effectiveness_CVPR_2018_paper.pdf
 
 [7] M. Heusel, H. Ramsauer, T. Unterthiner, B. Nessler, and S. Hochreiter,
 “GANs trained by a two time-scale update rule converge to a local
 Nash equilibrium,” in Proc. Adv. Neural Inf. Process. Syst. (NeurIPS),
-vol. 30, 2017, pp. 6626–6637. [Online]. Available: https://arxiv.org/abs/
-1706.08500
+vol. 30, 2017, pp. 6626–6637. [Online]. Available: https://arxiv.org/abs/1706.08500
 
 [8] T. Shmelkov, C. Schmid, and K. Alahari, “How good is my GAN?” in
 Proc. Eur. Conf. Comput. Vis. (ECCV), 2018, pp. 213–229. [Online].
@@ -158,8 +155,7 @@ Available: https://arxiv.org/abs/1807.09499
 representation,” in Proc. IEEE/CVF Conf. Comput. Vis. Pattern
 Recognit. (CVPR), 2022, pp. 10619–10629. [Online]. Available:
 https://openaccess.thecvf.com/content/CVPR2022/papers/Preechakul_
-Diffusion_Autoencoders_Toward_a_Meaningful_and_Decodable_
-Representation_CVPR_2022_paper.pdf
+Diffusion_Autoencoders_Toward_a_Meaningful_and_Decodable_Representation_CVPR_2022_paper.pdf
 
 [10] M. Proszewska, N. Malkin, and N. Siddharth, “On designing diffusion
 autoencoders for efficient generation and representation learning,” in arXiv
@@ -169,8 +165,7 @@ preprint, 2025. [Online]. Available: https://arxiv.org/pdf/2506.00136
 “High-resolution image synthesis with latent diffusion models,” in
 Proc. IEEE/CVF Conf. Comput. Vis. Pattern Recognit. (CVPR),
 2022, pp. 10684–10695. [Online]. Available: https://openaccess.thecvf.
-com/content/CVPR2022/papers/Rombach_High-Resolution_Image_
-Synthesis_With_Latent_Diffusion_Models_CVPR_2022_paper.pdf
+com/content/CVPR2022/papers/Rombach_High-Resolution_Image_Synthesis_With_Latent_Diffusion_Models_CVPR_2022_paper.pdf
 
 [12] A. Skorokhodov, S. Tulyakov, and M. Elhoseiny, “Improving the diffus-
 ability of autoencoders,” arXiv preprint arXiv:2502.14831, 2025. [Online].
@@ -179,29 +174,24 @@ Available: https://arxiv.org/abs/2502.14831
 [13] W. Peebles and S. Xie, “Scalable diffusion models with transformers,” in
 Proc. IEEE/CVF Int. Conf. Comput. Vis. (ICCV), 2023, pp. 4195–4205.
 [Online]. Available: https://openaccess.thecvf.com/content/ICCV2023/
-papers/Peebles_Scalable_Diffusion_Models_with_Transformers_ICCV_
-2023_paper.pdf
+papers/Peebles_Scalable_Diffusion_Models_with_Transformers_ICCV_2023_paper.pdf
 
 [14] H. Zheng, Z. Li, L. Wei, Y. Huang, and X. Song, “Diffusion transform-
 ers with representation autoencoders,” arXiv preprint arXiv:2510.11690,
 2025. [Online]. Available: https://arxiv.org/abs/2510.11690
 
 [15] Z. Liu et al., “Latent diffusion models as scalable image tokenizers,” arXiv
-preprint arXiv:2412.14422, 2024. [Online]. Available: https://arxiv.org/
-abs/2412.14422
+preprint arXiv:2412.14422, 2024. [Online]. Available: https://arxiv.org/abs/2412.14422
 
 [16] A. Krizhevsky, “Learning multiple layers of features from tiny images,”
-Tech. Rep., Univ. Toronto, 2009. [Online]. Available: https://www.cs.
-toronto.edu/~kriz/cifar.html
+Tech. Rep., Univ. Toronto, 2009. [Online]. Available: https://www.cs.toronto.edu/~kriz/cifar.html
 
 [17] D. P. Kingma and M. Welling, “Auto-encoding variational Bayes,” in Proc.
-Int. Conf. Learn. Represent. (ICLR), 2014. [Online]. Available: https://
-arxiv.org/abs/1312.6114
+Int. Conf. Learn. Represent. (ICLR), 2014. [Online]. Available: https://arxiv.org/abs/1312.6114
 
 [18] A. van den Oord, O. Vinyals, and K. Kavukcuoglu, “Neural discrete rep-
 resentation learning,” in Proc. Adv. Neural Inf. Process. Syst. (NeurIPS),
-vol. 30, 2017, pp. 6306–6315. [Online]. Available: https://arxiv.org/abs/
-1711.00937
+vol. 30, 2017, pp. 6306–6315. [Online]. Available: https://arxiv.org/abs/1711.00937
 
 [19] P. Dhariwal and A. Nichol, “Diffusion models beat GANs on image syn-
 thesis,” in Proc. Adv. Neural Inf. Process. Syst. (NeurIPS), vol. 34, 2021,
@@ -213,18 +203,15 @@ diffusion models,” in Proc. Int. Conf. Learn. Represent. (ICLR), 2022.
 
 [21] J. Smith and A. Doe, “The epochal sawtooth phenomenon: Unveiling
 training loss oscillations in Adam and other optimizers,” Neural Process.
-Lett., 2025. [Online]. Available: https://link.springer.com/content/pdf/10.
-1007/s11063-025-11776-4.pdf
+Lett., 2025. [Online]. Available: https://link.springer.com/content/pdf/10.1007/s11063-025-11776-4.pdf
 
 [22] N. S. Keskar, D. Mudigere, J. Nocedal, M. Smelyanskiy, and P. T. P. Tang,
 “On large-batch training for deep learning: Generalization gap and sharp
-minima,” arXiv preprint arXiv:1609.04836, 2016. [Online]. Available:
-https://arxiv.org/abs/1609.04836
+minima,” arXiv preprint arXiv:1609.04836, 2016. [Online]. Available: https://arxiv.org/abs/1609.04836
 
 [23] D. Morales-Brotons, T. Vogels, and H. Hendrikx, “Exponential moving av-
 erage of weights in deep learning: Dynamics and benefits,” arXiv preprint
-arXiv:2411.18704, 2024. [Online]. Available: https://arxiv.org/abs/2411.
-18704
+arXiv:2411.18704, 2024. [Online]. Available: https://arxiv.org/abs/2411.18704
 
 [24] J. Ho, A. Jain, and P. Abbeel, “Denoising diffusion probabilistic models,”
 in Advances in Neural Information Processing Systems (NeurIPS), 2020.
@@ -243,8 +230,7 @@ Transactions on Image Processing, vol. 13, no. 4, pp. 600–612, Apr. 2004.
 [27] U. Sara, M. Akter, and M. S. Uddin, “Image quality assessment through
 FSIM, SSIM, MSE and PSNR—A comparative study,” Journal of Com-
 puter and Communications, vol. 7, no. 3, pp. 8–18, Mar. 2019. [On-
-line]. Available: https://www.scirp.org/journal/paperinformation?paperid=
-90911
+line]. Available: https://www.scirp.org/journal/paperinformation?paperid=90911
 
 [28] M. Aslahishahri, K. G. Stanley, H. Duddu, S. Shirtliffe, S. Vail, and
 I. Stavness, “Spatial super resolution of real-world aerial images for
@@ -253,8 +239,7 @@ image-based plant phenotyping,” Remote Sensing, vol. 13, no. 12, p. 2308,
 
 [29] O. Kele¸s, M. A. Yılmaz, A. M. Tekalp, C. Korkmaz, and Z. Do˘gan, “On
 the computation of PSNR for a set of images or video,” arXiv preprint
-arXiv:2104.14868, 2021. [Online]. Available: https://arxiv.org/abs/2104.
-14868
+arXiv:2104.14868, 2021. [Online]. Available: https://arxiv.org/abs/2104.14868
 
 [30] J. Chen, H. Cai, J. Chen, E. Xie, S. Yang, H. Tang, M. Li, Y. Lu, and S. Han,
 “Deep compression autoencoder for efficient high-resolution diffusion
@@ -267,8 +252,7 @@ Proc. IEEE/CVF Conf. Comput. Vis. Pattern Recognit. (CVPR), 2022,
 pp. 10619–10629. [Online]. Available: https://arxiv.org/abs/2111.15640
 
 [32] B. Dai and D. Wipf, “Diagnosing and enhancing VAE models,” in Proc.
-Int. Conf. Learn. Represent. (ICLR), 2019. [Online]. Available: https://
-arxiv.org/abs/1903.05789
+Int. Conf. Learn. Represent. (ICLR), 2019. [Online]. Available: https://arxiv.org/abs/1903.05789
 
 [33] T.-L. Vuong, T. Le, H. Zhao, C. Zheng, M. Harandi, J. Cai, and D. Phung,
 “Vector Quantized Wasserstein Auto-Encoder,” in Proc. Int. Conf. Mach.
@@ -278,24 +262,20 @@ https://proceedings.mlr.press/v202/vuong23a/vuong23a.pdf
 [34] X. Zheng, C. Xu, J. Li, Y. Zhang, and J. Wang, “Online clus-
 tered codebook for vector-quantized image modeling,” in Proc.
 IEEE/CVF Int. Conf. Comput. Vis. (ICCV), 2023, pp. 23174–23184.
-[Online]. Available: https://openaccess.thecvf.com/content/ICCV2023/
-papers/Zheng_Online_Clustered_Codebook_ICCV_2023_paper.pdf
+[Online]. Available: https://openaccess.thecvf.com/content/ICCV2023/papers/Zheng_Online_Clustered_Codebook_ICCV_2023_paper.pdf
 
 [35] Y. Feng and G. Liu, “Frequency-Quantized Variational Autoencoder Based
 on Hybrid Codebook for Image Reconstruction,” Computers, Materials &
-Continua, vol. 83, no. 2, pp. 2183–2205, 2025. [Online]. Available: https:
-//www.techscience.com/cmc/v83n2/60526/pdf
+Continua, vol. 83, no. 2, pp. 2183–2205, 2025. [Online]. Available: https://www.techscience.com/cmc/v83n2/60526/pdf
 
 [36] J. A. Alhijaj, R. J. AL-Sukeinee, A. A. Alhijaj, N. M. Al-Moosawi,
 and R. S. Khudeyer, “Modified base autoencoder and variational au-
 toencoder for denoising images in CIFAR-10 and MNIST datasets,” In-
-formatica, vol. 49, no. 27, pp. 1–12, 2025. [Online]. Available: https:
-//www.informatica.si/index.php/informatica/article/view/9620
+formatica, vol. 49, no. 27, pp. 1–12, 2025. [Online]. Available: https://www.informatica.si/index.php/informatica/article/view/9620
 
 [37] P. Khungurn, S. Seripanitkarn, P. Thawatdamrongkit, and S. Suwa-
 janakorn, “Revisiting diffusion autoencoder training for image reconstruc-
-tion quality,” in arXiv preprint, Apr. 2025. [Online]. Available: https:
-//arxiv.org/pdf/2504.21368
+tion quality,” in arXiv preprint, Apr. 2025. [Online]. Available: https://arxiv.org/pdf/2504.21368
 
 [38] A. Nichol and P. Dhariwal, “Improved denoising diffusion probabilistic
 models,” in Proc. Int. Conf. Mach. Learn. (ICML), vol. 139, pp. 8162–
@@ -305,9 +285,7 @@ models,” in Proc. Int. Conf. Mach. Learn. (ICML), vol. 139, pp. 8162–
 distortion-perception tradeoff using a single score-based generative
 model,” in Proc. IEEE/CVF Conf. Comput. Vis. Pattern
 Recognit. (CVPR), pp. 2377–2386, 2025. [Online]. Available:
-https://openaccess.thecvf.com/content/CVPR2025/papers/Wang_
-Traversing_Distortion-Perception_Tradeoff_using_a_Single_
-Score-Based_Generative_Model_CVPR_2025_paper.pdf
+https://openaccess.thecvf.com/content/CVPR2025/papers/Wang_Traversing_Distortion-Perception_Tradeoff_using_a_Single_Score_Based_Generative_Model_CVPR_2025_paper.pdf
 
 [40] G. G. Pihlgren, F. Sandin, and M. Liwicki, “Improving image autoencoder
 embeddings with perceptual loss,” arXiv preprint arXiv:2001.03444, 2020.
