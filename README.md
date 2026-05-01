@@ -284,8 +284,8 @@ models,” in Proc. Int. Conf. Mach. Learn. (ICML), vol. 139, pp. 8162–
 [39] Y. Wang, S. Bi, Y.-J. A. Zhang, and X. Yuan, “Traversing
 distortion-perception tradeoff using a single score-based generative
 model,” in Proc. IEEE/CVF Conf. Comput. Vis. Pattern
-Recognit. (CVPR), pp. 2377–2386, 2025. [Online]. Available:
-https://openaccess.thecvf.com/content/CVPR2025/papers/Wang_Traversing_Distortion-Perception_Tradeoff_using_a_Single_Score_Based_Generative_Model_CVPR_2025_paper.pdf
+Recognit. (CVPR), pp. 2377–2386, 2025. [Online]. Available: https://openaccess.thecvf.com/content/CVPR2025/papers/Wang_Traversing_Distortion-Perception_Tradeoff_using_a_Single_Score-Based_Generative_Model_CVPR_2025_paper.pdf
+
 
 [40] G. G. Pihlgren, F. Sandin, and M. Liwicki, “Improving image autoencoder
 embeddings with perceptual loss,” arXiv preprint arXiv:2001.03444, 2020.
