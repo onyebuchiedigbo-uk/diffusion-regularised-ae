@@ -153,9 +153,7 @@ Available: https://arxiv.org/abs/1807.09499
 [9] K. Preechakul, J. Tseng, L. Chai, Y. Lu, and S. Suwajanakorn,
 “Diffusion autoencoders: Toward a meaningful and decodable
 representation,” in Proc. IEEE/CVF Conf. Comput. Vis. Pattern
-Recognit. (CVPR), 2022, pp. 10619–10629. [Online]. Available:
-https://openaccess.thecvf.com/content/CVPR2022/papers/Preechakul_
-Diffusion_Autoencoders_Toward_a_Meaningful_and_Decodable_Representation_CVPR_2022_paper.pdf
+Recognit. (CVPR), 2022, pp. 10619–10629. [Online]. Available: https://openaccess.thecvf.com/content/CVPR2022/papers/Preechakul_Diffusion_Autoencoders_Toward_a_Meaningful_and_Decodable_Representation_CVPR_2022_paper.pdf
 
 [10] M. Proszewska, N. Malkin, and N. Siddharth, “On designing diffusion
 autoencoders for efficient generation and representation learning,” in arXiv
